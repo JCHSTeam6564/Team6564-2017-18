@@ -1,1 +1,57 @@
+package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+/**
+ * Created by emmalinamotes on 10/17/17.
+ */
+@TeleOp(name = "TeleOp Tutorial", group ='Tutorials')
+public class TeleopTutorial2017 extends LinearOpMode
+{
+    private DcMotor ChickenLeg;
+    private DcMotor ChickenThigh;
+
+    
+    private Servo FlappyWing;
+
+    private static final double ARM_RETRACTED_POSITION = 0.2;
+    private static final double ARM_EXTENDED_POSITION = 0.8;
+
+    @Override
+    public void runOpMode () throws InterruptedException
+    {
+        ChickenLeg = hardwareMap.dcMotor.get("ChickenLeg");
+        ChickenThigh = hardwareMap.dcMotor.get('ChickenThigh');
+
+        ChickenLeg.setDirection(DcMotor.Direction.REVERSE);
+
+        FlappyWing = hardwareMap.servo.get("FlappyWing");
+
+        FlappyWing.setPosition(ARM_RETRACTED_POSITION);
+
+        waitForStart();
+
+        while(opModeIsActive())
+        {
+
+            ChickenLeg.setPower(-gamepad1.left_stick_y);
+            ChickenThigh.setPower(-gamepad1.right_stick_y);
+
+            if(gamepad2.a)
+            {
+                FlappyWing.setPosition(ARM_EXTENDED_POSITION);
+            }
+            if(gamepad2.b)
+            {
+                FlappyWing.setPosition(ARM_RETRACTED_POSITION);
+            }
+
+            idle();
+        }
+
+    }
+}
